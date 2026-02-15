@@ -24,14 +24,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (user) {
-      // Check if user is admin and redirect accordingly
-      if (user.email === 'admin@mochamarket.co.ls' || 
-          user.user_metadata?.first_name === 'admin' || 
-          user.user_metadata?.last_name === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/');
-      }
+      navigate('/');
     }
   }, [user, navigate]);
 
@@ -45,13 +38,8 @@ const Auth = () => {
         if (error) {
           toast.error(error.message);
         } else {
-          if (isAdminLogin) {
-            toast.success("Welcome to Admin Panel!");
-            navigate('/admin');
-          } else {
-            toast.success("Welcome back to MoCha Market!");
-            navigate('/');
-          }
+          toast.success("Welcome back to MoCha Market!");
+          navigate('/');
         }
       } else {
         if (!firstName || !lastName) {
@@ -74,25 +62,23 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-background shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => navigate('/')}
-                className="flex items-center space-x-2"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to MoCha Market</span>
-              </Button>
-            </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => navigate('/')}
+              className="flex items-center space-x-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to MoCha Market</span>
+            </Button>
             <div className="flex items-center space-x-2">
-              <MapPin className="w-4 h-4 text-green-600" />
-              <span className="text-sm text-gray-600">Kingdom of Lesotho</span>
+              <MapPin className="w-4 h-4 text-primary" />
+              <span className="text-sm text-muted-foreground">Kingdom of Lesotho</span>
             </div>
           </div>
         </div>
@@ -102,51 +88,26 @@ const Auth = () => {
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900">
-              {isAdminLogin ? 'Admin Access' : (isLogin ? 'Welcome back' : 'Join MoCha Market')}
+            <h2 className="text-3xl font-bold text-foreground">
+              {isLogin ? 'Welcome back' : 'Join MoCha Market'}
             </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              {isAdminLogin 
-                ? 'Administrative access to manage the platform'
-                : (isLogin 
-                  ? 'Sign in to your account to start buying and selling' 
-                  : 'Create your account to join Lesotho\'s digital marketplace'
-                )
+            <p className="mt-2 text-sm text-muted-foreground">
+              {isLogin 
+                ? 'Sign in to your account to start buying and selling' 
+                : 'Create your account to join Lesotho\'s digital marketplace'
               }
             </p>
           </div>
 
-          {/* Login Type Selection */}
-          <div className="flex justify-center space-x-4">
-            <Button
-              variant={!isAdminLogin ? "default" : "outline"}
-              size="sm"
-              onClick={() => setIsAdminLogin(false)}
-            >
-              User Login
-            </Button>
-            <Button
-              variant={isAdminLogin ? "default" : "outline"}
-              size="sm"
-              onClick={() => setIsAdminLogin(true)}
-              className="flex items-center space-x-2"
-            >
-              <Shield className="w-4 h-4" />
-              <span>Admin Login</span>
-            </Button>
-          </div>
-
           <Card>
             <CardHeader>
-              <CardTitle className="text-center flex items-center justify-center space-x-2">
-                {isAdminLogin && <Shield className="w-5 h-5 text-blue-600" />}
-                <span>{isAdminLogin ? 'Admin Sign In' : (isLogin ? 'Sign In' : 'Create Account')}</span>
-                {isAdminLogin && <Badge variant="secondary">Admin</Badge>}
+              <CardTitle className="text-center">
+                {isLogin ? 'Sign In' : 'Create Account'}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
-                {!isLogin && !isAdminLogin && (
+                {!isLogin && (
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="firstName">First Name</Label>
@@ -180,7 +141,7 @@ const Auth = () => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder={isAdminLogin ? "admin@mochamarket.co.ls" : "your.email@example.com"}
+                    placeholder="your.email@example.com"
                     required
                   />
                 </div>
@@ -198,30 +159,28 @@ const Auth = () => {
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? 'Please wait...' : (isAdminLogin ? 'Access Admin Panel' : (isLogin ? 'Sign In' : 'Create Account'))}
+                  {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
                 </Button>
               </form>
 
-              {!isAdminLogin && (
-                <div className="mt-6 text-center">
-                  <button
-                    type="button"
-                    onClick={() => setIsLogin(!isLogin)}
-                    className="text-sm text-blue-600 hover:text-blue-500"
-                  >
-                    {isLogin 
-                      ? "Don't have an account? Sign up" 
-                      : "Already have an account? Sign in"
-                    }
-                  </button>
-                </div>
-              )}
+              <div className="mt-6 text-center">
+                <button
+                  type="button"
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="text-sm text-primary hover:text-primary/80"
+                >
+                  {isLogin 
+                    ? "Don't have an account? Sign up" 
+                    : "Already have an account? Sign in"
+                  }
+                </button>
+              </div>
             </CardContent>
           </Card>
 
-          <div className="text-center text-sm text-gray-500">
+          <div className="text-center text-sm text-muted-foreground">
             <p>By joining MoCha Market, you're supporting</p>
-            <p className="font-medium text-green-600">Lesotho's digital economy</p>
+            <p className="font-medium text-primary">Lesotho's digital economy</p>
           </div>
         </div>
       </div>
