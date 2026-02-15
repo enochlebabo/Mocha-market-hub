@@ -192,7 +192,7 @@ const Footer = () => {
         <div className="py-6 border-t border-primary-foreground/20">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm opacity-70">
-              © 2024 MoCha Market. All rights reserved. Made with ❤️ by Enoch Lebabo in Lesotho.
+              © MoCha Market. All rights reserved. Lesotho.
             </div>
             <div className="flex items-center space-x-6 text-sm opacity-70">
               <div className="flex items-center space-x-1">
