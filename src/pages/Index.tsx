@@ -140,7 +140,7 @@ const Index = () => {
         <FeaturedListings />
 
         {/* SME Support Section */}
-        <section className="py-16 bg-gradient-to-r from-emerald-600 to-blue-600 text-white dark:from-emerald-700 dark:to-blue-700">
+        <section className="py-16 bg-primary text-primary-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <Briefcase className="w-16 h-16 mx-auto mb-6 opacity-80" />
             <h2 className="text-3xl font-bold mb-4">Empowering Lesotho's Economy</h2>
@@ -152,7 +152,7 @@ const Index = () => {
               <Button size="lg" variant="secondary" onClick={handleSellItems}>
                 List Your Business
               </Button>
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600">
+              <Button size="lg" variant="outline" className="text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary">
                 View Ad Packages
               </Button>
             </div>

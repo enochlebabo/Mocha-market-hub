@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -93,40 +92,27 @@ const FeaturedListings = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-muted/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 space-y-6 lg:space-y-0">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               Featured Listings
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-muted-foreground">
               Handpicked goods from trusted sellers across Lesotho
             </p>
           </div>
           
-          {/* Enhanced "View All Items" Button */}
-          <div className="relative">
-            <Button 
-              onClick={handleViewAllItems}
-              size="lg"
-              className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 hover:from-blue-700 hover:via-purple-700 hover:to-emerald-700 text-white font-semibold px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group"
-            >
-              <Sparkles className="w-5 h-5 mr-3 animate-pulse" />
-              <span className="relative">
-                Explore All 25K+ Items
-              </span>
-              <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
-              
-              {/* Animated glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 rounded-md blur opacity-30 group-hover:opacity-60 transition-opacity duration-300 -z-10"></div>
-            </Button>
-            
-            {/* Floating badge */}
-            <div className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-bounce">
-              HOT!
-            </div>
-          </div>
+          <Button 
+            onClick={handleViewAllItems}
+            size="lg"
+            className="font-semibold px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
+          >
+            <Sparkles className="w-5 h-5 mr-3" />
+            Explore All 25K+ Items
+            <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -143,13 +129,13 @@ const FeaturedListings = () => {
                   onClick={() => handleProductClick(item.id)}
                 />
                 {item.featured && (
-                  <Badge className="absolute top-3 left-3 bg-orange-500 hover:bg-orange-600">
+                  <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground">
                     <Star className="w-3 h-3 mr-1" />
                     Featured
                   </Badge>
                 )}
                 {item.isVerifiedSeller && (
-                  <Badge className="absolute top-3 right-3 bg-green-500 hover:bg-green-600">
+                  <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
                     ✓ Verified
                   </Badge>
                 )}
@@ -168,14 +154,14 @@ const FeaturedListings = () => {
                     <Badge variant="secondary" className="text-xs">
                       {item.category}
                     </Badge>
-                    <div className="flex items-center text-xs text-gray-500">
-                      <Star className="w-3 h-3 mr-1 text-yellow-400" />
+                    <div className="flex items-center text-xs text-muted-foreground">
+                      <Star className="w-3 h-3 mr-1 text-primary" />
                       {item.rating}
                     </div>
                   </div>
 
                   <h3 
-                    className="font-semibold text-lg text-gray-900 line-clamp-2 cursor-pointer hover:text-blue-600"
+                    className="font-semibold text-lg text-foreground line-clamp-2 cursor-pointer hover:text-primary transition-colors"
                     onClick={() => handleProductClick(item.id)}
                   >
                     {item.title}
@@ -187,7 +173,7 @@ const FeaturedListings = () => {
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between text-sm text-gray-500">
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
                     <div className="flex items-center">
                       <MapPin className="w-4 h-4 mr-1" />
                       {item.location}
@@ -199,7 +185,7 @@ const FeaturedListings = () => {
                   </div>
 
                   <Button 
-                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300"
+                    className="w-full"
                     onClick={() => handleProductClick(item.id)}
                   >
                     View Details
@@ -212,18 +198,18 @@ const FeaturedListings = () => {
 
         {/* Second CTA Section */}
         <div className="mt-12 text-center">
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="bg-secondary rounded-2xl p-8 border">
+            <h3 className="text-2xl font-bold text-foreground mb-4">
               Don't Miss Out on Amazing Deals!
             </h3>
-            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Browse thousands of items from verified sellers across all 10 districts of Lesotho. 
               From vehicles to electronics, find exactly what you're looking for.
             </p>
             <Button 
               onClick={handleViewAllItems}
               size="lg"
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold px-12 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group"
+              className="font-semibold px-12 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
               <Sparkles className="w-5 h-5 mr-3" />
               Browse Full Marketplace
