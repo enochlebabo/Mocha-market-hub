@@ -1,62 +1,42 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent } from "@/components/ui/card";
-import { Car, Laptop, Briefcase, Star, Users, Building, ArrowRight } from 'lucide-react';
+import { Car, Laptop, Building, Star, Users, Briefcase, Sofa, Shirt } from 'lucide-react';
 
 const categories = [
-  { name: 'Vehicles', icon: Car, count: '2,453', description: 'Cars, trucks, motorcycles', slug: 'vehicles' },
-  { name: 'Electronics', icon: Laptop, count: '1,876', description: 'Laptops, phones, gadgets', slug: 'electronics' },
-  { name: 'Furniture', icon: Building, count: '987', description: 'Home & office furniture', slug: 'furniture' },
-  { name: 'Fashion', icon: Star, count: '1,234', description: 'Clothing & accessories', slug: 'fashion' },
-  { name: 'Services', icon: Users, count: '567', description: 'Professional services', slug: 'services' },
-  { name: 'Business', icon: Briefcase, count: '345', description: 'Equipment & supplies', slug: 'business' },
+  { name: 'Vehicles', icon: Car, count: '2,453', slug: 'vehicles' },
+  { name: 'Electronics', icon: Laptop, count: '1,876', slug: 'electronics' },
+  { name: 'Furniture', icon: Sofa, count: '987', slug: 'furniture' },
+  { name: 'Fashion', icon: Shirt, count: '1,234', slug: 'fashion' },
+  { name: 'Services', icon: Users, count: '567', slug: 'services' },
+  { name: 'Business', icon: Briefcase, count: '345', slug: 'business' },
 ];
 
 const CategoryGrid = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-12 sm:py-16 bg-background">
+    <section className="py-6 sm:py-10 bg-background border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">
-            Browse by Category
-          </h2>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            Find exactly what you're looking for in our organized categories
-          </p>
-        </div>
+        <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4">
+          Browse by Category
+        </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-          {categories.map((category) => (
-            <Card
-              key={category.name}
-              className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-2 hover:border-primary/30 active:scale-[0.98]"
-              onClick={() => navigate(`/products?category=${category.slug}`)}
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+          {categories.map((cat) => (
+            <button
+              key={cat.name}
+              onClick={() => navigate(`/products?category=${cat.slug}`)}
+              className="flex flex-col items-center gap-2 p-3 sm:p-4 rounded-xl border bg-background hover:bg-accent hover:border-primary/30 transition-all duration-200 active:scale-95 group text-center"
             >
-              <CardContent className="p-4 sm:p-6">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:space-x-4 space-y-2 sm:space-y-0">
-                  <div className="bg-secondary p-2.5 sm:p-3 rounded-xl group-hover:scale-110 transition-transform duration-300 w-fit">
-                    <category.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-base sm:text-lg text-foreground mb-0.5 sm:mb-1 truncate">
-                      {category.name}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground mb-1 sm:mb-2 hidden sm:block">
-                      {category.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg sm:text-2xl font-bold text-primary">
-                        {category.count}
-                      </span>
-                      <span className="text-xs sm:text-sm text-muted-foreground hidden sm:block">items</span>
-                      <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300 sm:hidden" />
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              <div className="bg-primary/10 rounded-full p-2.5 sm:p-3 group-hover:bg-primary/20 transition-colors">
+                <cat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+              </div>
+              <div>
+                <p className="text-xs sm:text-sm font-medium text-foreground leading-tight">{cat.name}</p>
+                <p className="text-xs text-muted-foreground">{cat.count}</p>
+              </div>
+            </button>
           ))}
         </div>
       </div>
