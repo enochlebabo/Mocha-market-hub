@@ -9,7 +9,7 @@ import SellerProfile from '@/components/seller/SellerProfile';
 import PremiumListings from '@/components/premium/PremiumListings';
 import BusinessAccounts from '@/components/business/BusinessAccounts';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
-import { ArrowLeft, LayoutDashboard, Star, Building2, Lock, MapPin } from 'lucide-react';
+import { ArrowLeft, LayoutDashboard, Star, Building2, Lock, MapPin, Tag, TrendingUp, Megaphone } from 'lucide-react';
 
 const SellerDashboard = () => {
   const { user, loading } = useAuth();
@@ -126,7 +126,7 @@ const SellerDashboard = () => {
         <Tabs defaultValue="profile" className="space-y-6">
           {/* Tab List — scrollable on mobile */}
           <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-            <TabsList className="inline-flex w-auto sm:grid sm:w-full sm:grid-cols-3 min-w-full sm:min-w-0">
+            <TabsList className="inline-flex w-auto sm:grid sm:w-full sm:grid-cols-3 min-w-full sm:min-w-0 h-auto p-1">
               <TabsTrigger value="profile" className="flex items-center gap-1.5 text-xs sm:text-sm whitespace-nowrap px-3 sm:px-4">
                 <LayoutDashboard className="w-3.5 h-3.5 shrink-0" />
                 <span>Seller Profile</span>

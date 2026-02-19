@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import HeroSection from '@/components/HeroSection';
 import CategoryGrid from '@/components/CategoryGrid';
 import FeaturedListings from '@/components/FeaturedListings';
-import AdBanner from '@/components/AdBanner';
 import Footer from '@/components/Footer';
 import AuthButton from '@/components/auth/AuthButton';
 import NavigationMenu from '@/components/NavigationMenu';
@@ -15,7 +14,7 @@ import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { ScrollToTop } from '@/components/ui/scroll-to-top';
 import { SearchWithSuggestions } from '@/components/search/SearchWithSuggestions';
 import StatsSection from '@/components/StatsSection';
-import SMESection from '@/components/SMESection';
+import MobileBottomNav from '@/components/MobileBottomNav';
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,79 +29,83 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header/Navigation */}
+    <div className="min-h-screen bg-background pb-14 sm:pb-0">
+      {/* ─── Header ─── */}
       <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm border-b sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top bar */}
-          <div className="flex justify-between items-center h-14 sm:h-16 gap-2">
-            <div className="flex items-center gap-2 shrink-0">
-              <h1
-                className="text-lg sm:text-2xl font-bold text-primary cursor-pointer leading-tight"
-                onClick={() => navigate('/')}
-              >
-                MoCha Market
-              </h1>
-              <Badge variant="secondary" className="hidden sm:inline-flex text-xs">
-                <MapPin className="w-3 h-3 mr-1" />
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+
+          {/* Top row */}
+          <div className="flex items-center h-13 sm:h-16 gap-2 py-2">
+            {/* Logo */}
+            <button
+              className="flex items-center gap-1.5 shrink-0 mr-1 sm:mr-3"
+              onClick={() => navigate('/')}
+            >
+              <span className="text-lg sm:text-2xl font-bold text-primary leading-none">
+                MoCha
+              </span>
+              <span className="text-lg sm:text-2xl font-bold text-foreground leading-none">
+                Market
+              </span>
+              <Badge variant="outline" className="hidden lg:inline-flex text-xs ml-1 px-1.5 py-0.5">
+                <MapPin className="w-2.5 h-2.5 mr-0.5" />
                 Lesotho
               </Badge>
-            </div>
+            </button>
 
-            {/* Desktop search */}
-            <div className="flex-1 max-w-sm lg:max-w-md mx-2 lg:mx-8 hidden md:block">
+            {/* Search — grows to fill middle */}
+            <div className="flex-1 hidden sm:block">
               <SearchWithSuggestions
                 value={searchQuery}
                 onChange={setSearchQuery}
                 onSearch={handleSearch}
+                placeholder="Search for anything..."
               />
             </div>
 
-            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            {/* Right actions */}
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0 ml-auto sm:ml-2">
               <ThemeToggle />
               <AuthButton />
-              <Button size="sm" onClick={() => navigate('/list-product')} className="hidden xs:flex">
-                <Tag className="w-4 h-4 sm:mr-2" />
-                <span className="hidden sm:inline">List Item</span>
+              <Button
+                size="sm"
+                onClick={() => navigate('/list-product')}
+                className="hidden sm:inline-flex font-semibold"
+              >
+                <Tag className="w-3.5 h-3.5 mr-1.5" />
+                Sell
               </Button>
             </div>
           </div>
 
-          {/* Navigation Menu - scrollable on mobile */}
-          <div className="border-t overflow-x-auto scrollbar-none">
-            <NavigationMenu />
-          </div>
-
-          {/* Mobile Search */}
-          <div className="md:hidden pb-3 pt-1">
+          {/* Mobile search */}
+          <div className="sm:hidden pb-2">
             <SearchWithSuggestions
               value={searchQuery}
               onChange={setSearchQuery}
               onSearch={handleSearch}
-              placeholder="Search marketplace..."
+              placeholder="Search for anything..."
             />
+          </div>
+
+          {/* Category nav */}
+          <div className="border-t">
+            <NavigationMenu />
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* ─── Main Content ─── */}
       <main>
         <HeroSection />
-
-        <AdBanner
-          title="Grow Your Business in Lesotho"
-          description="Reach thousands of customers across all 10 districts with affordable advertising packages"
-          buttonText="Start Advertising"
-        />
-
         <CategoryGrid />
         <StatsSection />
         <FeaturedListings />
-        <SMESection />
       </main>
 
       <Footer />
       <ScrollToTop />
+      <MobileBottomNav />
     </div>
   );
 };
