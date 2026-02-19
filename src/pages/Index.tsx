@@ -98,9 +98,10 @@ const Index = () => {
       {/* ─── Main Content ─── */}
       <main>
         <HeroSection />
+        <FeaturedListings />
         <CategoryGrid />
         <StatsSection />
-        <FeaturedListings />
+        
       </main>
 
       <Footer />
