@@ -164,6 +164,57 @@ export type Database = {
         }
         Relationships: []
       }
+      listings: {
+        Row: {
+          category: string
+          condition: string | null
+          created_at: string
+          description: string | null
+          id: string
+          images: Json
+          is_featured: boolean
+          location: string
+          price: number
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+          view_count: number
+        }
+        Insert: {
+          category: string
+          condition?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: Json
+          is_featured?: boolean
+          location: string
+          price: number
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+          view_count?: number
+        }
+        Update: {
+          category?: string
+          condition?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: Json
+          is_featured?: boolean
+          location?: string
+          price?: number
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          view_count?: number
+        }
+        Relationships: []
+      }
       premium_listings: {
         Row: {
           created_at: string
