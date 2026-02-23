@@ -21,17 +21,17 @@ const Products = () => {
   const mockProducts = [
     {
       id: 1, title: 'Toyota Corolla 2018', price: 'M 180,000', location: 'Maseru',
-      image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400',
+      image: 'https://images.unsplash.com/photo-1623869675781-80aa31012a5a?w=400',
       category: 'Vehicles', timeAgo: '2 hours ago', isPremium: true, isVerifiedSeller: true,
     },
     {
       id: 2, title: 'MacBook Pro 13" 2020', price: 'M 8,500', location: 'Leribe',
-      image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400',
+      image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400',
       category: 'Electronics', timeAgo: '5 hours ago', isPremium: false, isVerifiedSeller: true,
     },
     {
       id: 3, title: 'Modern Office Desk', price: 'M 1,200', location: 'Berea',
-      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400',
+      image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=400',
       category: 'Furniture', timeAgo: '1 day ago', isPremium: true, isVerifiedSeller: false,
     },
   ];
