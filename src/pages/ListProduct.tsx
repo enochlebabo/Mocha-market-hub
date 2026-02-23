@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Upload, X, CheckCircle, AlertTriangle } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import ImageQualityChecker from '@/components/upload/ImageQualityChecker';
+import { categories as allCategories } from '@/data/categories';
 
 const ListProduct = () => {
   const navigate = useNavigate();
@@ -16,10 +17,10 @@ const ListProduct = () => {
   const [photos, setPhotos] = useState<File[]>([]);
   const [pendingPhotos, setPendingPhotos] = useState<File[]>([]);
   const [rejectedPhotos, setRejectedPhotos] = useState<{ file: File; issues: string[] }[]>([]);
-  const [formData, setFormData] = useState({ title: '', description: '', price: '', category: '', condition: '', location: '' });
+  const [formData, setFormData] = useState({ title: '', description: '', price: '', category: '', subcategory: '', condition: '', location: '' });
 
-  const categories = ['Vehicles', 'Electronics', 'Furniture', 'Fashion', 'Books', 'Sports', 'Home & Garden', 'Services', 'Other'];
   const conditions = ['New', 'Excellent', 'Good', 'Fair', 'Poor'];
+  const selectedCat = allCategories.find(c => c.slug === formData.category);
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -114,8 +115,26 @@ const ListProduct = () => {
 
             <div><label className="block text-sm font-medium mb-2">Description</label><Textarea name="description" value={formData.description} onChange={handleChange} placeholder="Describe your product in detail..." rows={4} required /></div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div><label className="block text-sm font-medium mb-2">Category</label><Select onValueChange={(value) => setFormData({...formData, category: value})}><SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger><SelectContent>{categories.map(c => <SelectItem key={c} value={c.toLowerCase()}>{c}</SelectItem>)}</SelectContent></Select></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Category</label>
+                <Select onValueChange={(value) => setFormData({...formData, category: value, subcategory: ''})}>
+                  <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+                  <SelectContent>{allCategories.map(c => <SelectItem key={c.slug} value={c.slug}>{c.name}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              {selectedCat && selectedCat.subs.length > 0 && (
+                <div>
+                  <label className="block text-sm font-medium mb-2">Subcategory</label>
+                  <Select onValueChange={(value) => setFormData({...formData, subcategory: value})}>
+                    <SelectTrigger><SelectValue placeholder="Select subcategory" /></SelectTrigger>
+                    <SelectContent>{selectedCat.subs.map(s => <SelectItem key={s.slug} value={s.slug}>{s.name}</SelectItem>)}</SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div><label className="block text-sm font-medium mb-2">Condition</label><Select onValueChange={(value) => setFormData({...formData, condition: value})}><SelectTrigger><SelectValue placeholder="Select condition" /></SelectTrigger><SelectContent>{conditions.map(c => <SelectItem key={c} value={c.toLowerCase()}>{c}</SelectItem>)}</SelectContent></Select></div>
               <div><label className="block text-sm font-medium mb-2">Location</label><Input name="location" value={formData.location} onChange={handleChange} placeholder="e.g., Maseru" required /></div>
             </div>
