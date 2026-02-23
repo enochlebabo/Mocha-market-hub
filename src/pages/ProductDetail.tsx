@@ -7,13 +7,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, Share2, MessageCircle, Phone, MapPin, Eye, Star, Clock, Shield } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/components/auth/AuthContext';
+import { useWishlist } from '@/hooks/useWishlist';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
-  const [isFavorited, setIsFavorited] = useState(false);
+  const { isWishlisted, toggle } = useWishlist();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Mock product data
@@ -50,10 +51,10 @@ const ProductDetail = () => {
     }
   };
 
+  const isFavorited = isWishlisted(mockProduct.id);
   const handleToggleFavorite = () => {
     if (!user) { navigate('/auth'); return; }
-    setIsFavorited(!isFavorited);
-    toast({ title: isFavorited ? "Removed from favorites" : "Added to favorites", description: isFavorited ? "Item removed from your favorites list" : "Item added to your favorites list" });
+    toggle(mockProduct.id);
   };
 
   const handleShare = () => {
