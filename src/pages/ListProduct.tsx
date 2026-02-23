@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,14 +10,38 @@ import { Upload, X, CheckCircle, AlertTriangle } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import ImageQualityChecker from '@/components/upload/ImageQualityChecker';
 import { categories as allCategories } from '@/data/categories';
+import { useAuth } from '@/components/auth/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 const ListProduct = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, loading: authLoading } = useAuth();
+  const [profileChecked, setProfileChecked] = useState(false);
   const [photos, setPhotos] = useState<File[]>([]);
   const [pendingPhotos, setPendingPhotos] = useState<File[]>([]);
   const [rejectedPhotos, setRejectedPhotos] = useState<{ file: File; issues: string[] }[]>([]);
   const [formData, setFormData] = useState({ title: '', description: '', price: '', category: '', subcategory: '', condition: '', location: '' });
+
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+    supabase
+      .from('profiles')
+      .select('is_complete')
+      .eq('user_id', user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!data || !data.is_complete) {
+          navigate('/complete-profile?redirect=/list-product');
+        } else {
+          setProfileChecked(true);
+        }
+      });
+  }, [user, authLoading, navigate]);
 
   const conditions = ['New', 'Excellent', 'Good', 'Fair', 'Poor'];
   const selectedCat = allCategories.find(c => c.slug === formData.category);
@@ -43,6 +67,10 @@ const ListProduct = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => { setFormData({ ...formData, [e.target.name]: e.target.value }); };
+
+  if (authLoading || !profileChecked) {
+    return <div className="flex justify-center py-20 text-muted-foreground">Loading...</div>;
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

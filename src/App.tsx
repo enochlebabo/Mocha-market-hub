@@ -22,6 +22,7 @@ import ListProduct from "./pages/ListProduct";
 import SellerDashboard from "./pages/SellerDashboard";
 import AdminPanel from "./pages/AdminPanel";
 import Wishlist from "./pages/Wishlist";
+import CompleteProfile from "./pages/CompleteProfile";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
                 <Route path="/seller-dashboard" element={<SellerDashboard />} />
                 <Route path="/admin" element={<AdminPanel />} />
                 <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/complete-profile" element={<CompleteProfile />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
