@@ -1,13 +1,14 @@
 
 import React from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Home, Search, Tag, User } from 'lucide-react';
+import { useLocation, Link } from 'react-router-dom';
+import { Home, Search, Tag, Heart, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const tabs = [
   { label: 'Home', icon: Home, href: '/' },
   { label: 'Browse', icon: Search, href: '/products' },
   { label: 'Sell', icon: Tag, href: '/list-product', highlight: true },
+  { label: 'Wishlist', icon: Heart, href: '/wishlist' },
   { label: 'Account', icon: User, href: '/seller-dashboard' },
 ];
 

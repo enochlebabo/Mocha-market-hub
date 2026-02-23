@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Clock, Star, Heart, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useWishlist } from '@/hooks/useWishlist';
+import { useAuth } from '@/components/auth/AuthContext';
 
 const featuredItems = [
   {
@@ -77,6 +79,8 @@ const featuredItems = [
 
 const FeaturedListings = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { isWishlisted, toggle } = useWishlist();
 
   return (
     <section className="py-8 sm:py-12 bg-muted/40">
@@ -128,9 +132,9 @@ const FeaturedListings = () => {
                 )}
                 <button
                   className="absolute bottom-2 right-2 bg-background/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => { e.stopPropagation(); user ? toggle(String(item.id)) : navigate('/auth'); }}
                 >
-                  <Heart className="w-3.5 h-3.5 text-muted-foreground" />
+                  <Heart className={`w-3.5 h-3.5 ${isWishlisted(String(item.id)) ? 'fill-destructive text-destructive' : 'text-muted-foreground'}`} />
                 </button>
               </div>
 
