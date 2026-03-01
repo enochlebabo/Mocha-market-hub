@@ -164,6 +164,15 @@ const ListProduct = () => {
               )}
             </div>
 
+            {/* Category-specific fields */}
+            {formData.category && (
+              <CategoryFields
+                category={formData.category}
+                metadata={metadata}
+                onChange={setMetadata}
+              />
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div><label className="block text-sm font-medium mb-2">Condition</label><Select onValueChange={(value) => setFormData({...formData, condition: value})}><SelectTrigger><SelectValue placeholder="Select condition" /></SelectTrigger><SelectContent>{conditions.map(c => <SelectItem key={c} value={c.toLowerCase()}>{c}</SelectItem>)}</SelectContent></Select></div>
               <div><label className="block text-sm font-medium mb-2">Location</label><Input name="location" value={formData.location} onChange={handleChange} placeholder="e.g., Maseru" required /></div>
