@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Upload, X, CheckCircle, AlertTriangle } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import ImageQualityChecker from '@/components/upload/ImageQualityChecker';
+import CategoryFields from '@/components/listing/CategoryFields';
 import { categories as allCategories } from '@/data/categories';
 import { useAuth } from '@/components/auth/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
