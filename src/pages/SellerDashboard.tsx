@@ -1,14 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/components/auth/AuthContext';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import SellerProfile from '@/components/seller/SellerProfile';
 import PremiumListings from '@/components/premium/PremiumListings';
 import BusinessAccounts from '@/components/business/BusinessAccounts';
-import { LayoutDashboard, Star, Building2, Lock, MapPin } from 'lucide-react';
+import TrustScoreCard from '@/components/seller/TrustScoreCard';
+import BoostListingModal from '@/components/premium/BoostListingModal';
+import { LayoutDashboard, Star, Building2, Lock, Rocket } from 'lucide-react';
 
 const SellerDashboard = () => {
   const { user, loading } = useAuth();
