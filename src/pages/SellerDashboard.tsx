@@ -17,6 +17,18 @@ import { LayoutDashboard, Star, Building2, Lock, Rocket } from 'lucide-react';
 const SellerDashboard = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const [boostOpen, setBoostOpen] = useState(false);
+
+  const { data: trustData } = useQuery({
+    queryKey: ['seller-trust-score', user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data, error } = await supabase.rpc('get_seller_trust_score', { seller_user_id: user.id });
+      if (error) throw error;
+      return data as any;
+    },
+    enabled: !!user,
+  });
 
   if (loading) {
     return (
