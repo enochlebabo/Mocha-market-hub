@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Upload, X, CheckCircle, AlertTriangle } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import ImageQualityChecker from '@/components/upload/ImageQualityChecker';
+import CategoryFields from '@/components/listing/CategoryFields';
 import { categories as allCategories } from '@/data/categories';
 import { useAuth } from '@/components/auth/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -22,6 +23,7 @@ const ListProduct = () => {
   const [pendingPhotos, setPendingPhotos] = useState<File[]>([]);
   const [rejectedPhotos, setRejectedPhotos] = useState<{ file: File; issues: string[] }[]>([]);
   const [formData, setFormData] = useState({ title: '', description: '', price: '', category: '', subcategory: '', condition: '', location: '' });
+  const [metadata, setMetadata] = useState<Record<string, any>>({});
 
   useEffect(() => {
     if (authLoading) return;
@@ -161,6 +163,15 @@ const ListProduct = () => {
                 </div>
               )}
             </div>
+
+            {/* Category-specific fields */}
+            {formData.category && (
+              <CategoryFields
+                category={formData.category}
+                metadata={metadata}
+                onChange={setMetadata}
+              />
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div><label className="block text-sm font-medium mb-2">Condition</label><Select onValueChange={(value) => setFormData({...formData, condition: value})}><SelectTrigger><SelectValue placeholder="Select condition" /></SelectTrigger><SelectContent>{conditions.map(c => <SelectItem key={c} value={c.toLowerCase()}>{c}</SelectItem>)}</SelectContent></Select></div>

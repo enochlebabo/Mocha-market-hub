@@ -174,8 +174,10 @@ export type Database = {
           images: Json
           is_featured: boolean
           location: string
+          metadata: Json | null
           price: number
           status: string
+          subcategory: string | null
           title: string
           updated_at: string
           user_id: string
@@ -190,8 +192,10 @@ export type Database = {
           images?: Json
           is_featured?: boolean
           location: string
+          metadata?: Json | null
           price: number
           status?: string
+          subcategory?: string | null
           title: string
           updated_at?: string
           user_id: string
@@ -206,8 +210,10 @@ export type Database = {
           images?: Json
           is_featured?: boolean
           location?: string
+          metadata?: Json | null
           price?: number
           status?: string
+          subcategory?: string | null
           title?: string
           updated_at?: string
           user_id?: string
@@ -217,6 +223,7 @@ export type Database = {
       }
       premium_listings: {
         Row: {
+          boost_score: number | null
           created_at: string
           end_date: string
           fee_amount: number
@@ -224,10 +231,12 @@ export type Database = {
           is_active: boolean
           listing_id: string
           premium_type: string
+          rotation_weight: number | null
           start_date: string
           user_id: string
         }
         Insert: {
+          boost_score?: number | null
           created_at?: string
           end_date: string
           fee_amount?: number
@@ -235,10 +244,12 @@ export type Database = {
           is_active?: boolean
           listing_id: string
           premium_type: string
+          rotation_weight?: number | null
           start_date?: string
           user_id: string
         }
         Update: {
+          boost_score?: number | null
           created_at?: string
           end_date?: string
           fee_amount?: number
@@ -246,6 +257,7 @@ export type Database = {
           is_active?: boolean
           listing_id?: string
           premium_type?: string
+          rotation_weight?: number | null
           start_date?: string
           user_id?: string
         }
@@ -516,6 +528,10 @@ export type Database = {
           response_time_rating: number
           total_reviews: number
         }[]
+      }
+      get_seller_trust_score: {
+        Args: { seller_user_id: string }
+        Returns: Json
       }
       has_role: {
         Args: {

@@ -1,18 +1,34 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/components/auth/AuthContext';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import SellerProfile from '@/components/seller/SellerProfile';
 import PremiumListings from '@/components/premium/PremiumListings';
 import BusinessAccounts from '@/components/business/BusinessAccounts';
-import { LayoutDashboard, Star, Building2, Lock, MapPin } from 'lucide-react';
+import TrustScoreCard from '@/components/seller/TrustScoreCard';
+import BoostListingModal from '@/components/premium/BoostListingModal';
+import { LayoutDashboard, Star, Building2, Lock, Rocket } from 'lucide-react';
 
 const SellerDashboard = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const [boostOpen, setBoostOpen] = useState(false);
+
+  const { data: trustData } = useQuery({
+    queryKey: ['seller-trust-score', user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data, error } = await supabase.rpc('get_seller_trust_score', { seller_user_id: user.id });
+      if (error) throw error;
+      return data as any;
+    },
+    enabled: !!user,
+  });
 
   if (loading) {
     return (
@@ -57,8 +73,20 @@ const SellerDashboard = () => {
           <h1 className="text-base sm:text-xl font-bold">Seller Dashboard</h1>
           <p className="text-xs text-muted-foreground hidden sm:block truncate max-w-[200px]">{user.email}</p>
         </div>
-        <Button size="sm" variant="outline" onClick={() => navigate('/list-product')}>+ List Item</Button>
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => setBoostOpen(true)}>
+            <Rocket className="w-3.5 h-3.5 mr-1" />Boost
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => navigate('/list-product')}>+ List Item</Button>
+        </div>
       </div>
+
+      {/* Trust Score Card */}
+      {trustData && (
+        <div className="mb-6">
+          <TrustScoreCard data={trustData} />
+        </div>
+      )}
 
       <Tabs defaultValue="profile" className="space-y-6">
         <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -72,6 +100,8 @@ const SellerDashboard = () => {
         <TabsContent value="premium"><PremiumListings /></TabsContent>
         <TabsContent value="business"><BusinessAccounts /></TabsContent>
       </Tabs>
+
+      <BoostListingModal open={boostOpen} onOpenChange={setBoostOpen} />
     </div>
   );
 };
