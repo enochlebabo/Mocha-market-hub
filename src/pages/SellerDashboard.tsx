@@ -73,8 +73,12 @@ const SellerDashboard = () => {
           <h1 className="text-base sm:text-xl font-bold">Seller Dashboard</h1>
           <p className="text-xs text-muted-foreground hidden sm:block truncate max-w-[200px]">{user.email}</p>
         </div>
-        <Button size="sm" variant="outline" onClick={() => navigate('/list-product')}>+ List Item</Button>
-      </div>
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => setBoostOpen(true)}>
+            <Rocket className="w-3.5 h-3.5 mr-1" />Boost
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => navigate('/list-product')}>+ List Item</Button>
+        </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
         <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
