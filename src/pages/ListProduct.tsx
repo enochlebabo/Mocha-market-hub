@@ -23,6 +23,7 @@ const ListProduct = () => {
   const [pendingPhotos, setPendingPhotos] = useState<File[]>([]);
   const [rejectedPhotos, setRejectedPhotos] = useState<{ file: File; issues: string[] }[]>([]);
   const [formData, setFormData] = useState({ title: '', description: '', price: '', category: '', subcategory: '', condition: '', location: '' });
+  const [metadata, setMetadata] = useState<Record<string, any>>({});
 
   useEffect(() => {
     if (authLoading) return;
