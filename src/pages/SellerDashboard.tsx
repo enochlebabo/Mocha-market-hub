@@ -79,6 +79,7 @@ const SellerDashboard = () => {
           </Button>
           <Button size="sm" variant="outline" onClick={() => navigate('/list-product')}>+ List Item</Button>
         </div>
+      </div>
 
       {/* Trust Score Card */}
       {trustData && (
