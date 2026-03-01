@@ -80,6 +80,13 @@ const SellerDashboard = () => {
           <Button size="sm" variant="outline" onClick={() => navigate('/list-product')}>+ List Item</Button>
         </div>
 
+      {/* Trust Score Card */}
+      {trustData && (
+        <div className="mb-6">
+          <TrustScoreCard data={trustData} />
+        </div>
+      )}
+
       <Tabs defaultValue="profile" className="space-y-6">
         <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
           <TabsList className="inline-flex w-auto sm:grid sm:w-full sm:grid-cols-3 min-w-full sm:min-w-0 h-auto p-1">
@@ -92,6 +99,8 @@ const SellerDashboard = () => {
         <TabsContent value="premium"><PremiumListings /></TabsContent>
         <TabsContent value="business"><BusinessAccounts /></TabsContent>
       </Tabs>
+
+      <BoostListingModal open={boostOpen} onOpenChange={setBoostOpen} />
     </div>
   );
 };
