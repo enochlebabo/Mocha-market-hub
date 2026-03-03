@@ -14,7 +14,7 @@ import TrustScoreCard from '@/components/seller/TrustScoreCard';
 import BoostListingModal from '@/components/premium/BoostListingModal';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { LayoutDashboard, Star, Building2, Lock, Rocket, HelpCircle } from 'lucide-react';
+import { LayoutDashboard, Star, Building2, Lock, Rocket, HelpCircle, Shield } from 'lucide-react';
 
 const SellerDashboard = () => {
   const { user, loading } = useAuth();
