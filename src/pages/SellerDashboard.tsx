@@ -12,14 +12,16 @@ import PremiumListings from '@/components/premium/PremiumListings';
 import BusinessAccounts from '@/components/business/BusinessAccounts';
 import TrustScoreCard from '@/components/seller/TrustScoreCard';
 import BoostListingModal from '@/components/premium/BoostListingModal';
-import { LayoutDashboard, Star, Building2, Lock, Rocket } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { LayoutDashboard, Star, Building2, Lock, Rocket, HelpCircle } from 'lucide-react';
 
 const SellerDashboard = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [boostOpen, setBoostOpen] = useState(false);
 
-  const { data: trustData } = useQuery({
+  const { data: trustData, isLoading: trustLoading } = useQuery({
     queryKey: ['seller-trust-score', user?.id],
     queryFn: async () => {
       if (!user) return null;
@@ -82,11 +84,43 @@ const SellerDashboard = () => {
       </div>
 
       {/* Trust Score Card */}
-      {trustData && (
-        <div className="mb-6">
-          <TrustScoreCard data={trustData} />
-        </div>
-      )}
+      <div className="mb-6">
+        {trustLoading ? (
+          <div className="border rounded-lg p-6 space-y-4">
+            <Skeleton className="h-5 w-40" />
+            <Skeleton className="h-16 w-24 mx-auto" />
+            <Skeleton className="h-2 w-full" />
+            <div className="grid grid-cols-2 gap-3">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          </div>
+        ) : trustData ? (
+          <div className="relative">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button className="absolute top-3 right-3 z-10 text-muted-foreground hover:text-foreground transition-colors">
+                    <HelpCircle className="w-4 h-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className="max-w-[250px] text-xs">
+                  <p>Your Trust Score (0–100) is based on verification status, ratings, completed sales, and response time. Higher scores unlock premium badges.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <TrustScoreCard data={trustData} />
+          </div>
+        ) : (
+          <div className="border rounded-lg p-6 text-center space-y-2">
+            <Shield className="w-8 h-8 text-muted-foreground mx-auto" />
+            <p className="text-sm font-medium">Build Your Trust Score</p>
+            <p className="text-xs text-muted-foreground">Complete your profile, verify your identity, and make sales to increase your trust score.</p>
+          </div>
+        )}
+      </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
         <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">

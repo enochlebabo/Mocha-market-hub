@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import ImageQualityChecker from '@/components/upload/ImageQualityChecker';
 import CategoryFields from '@/components/listing/CategoryFields';
 import { categories as allCategories } from '@/data/categories';
+import { validateMetadata } from '@/types/listingMetadata';
 import { useAuth } from '@/components/auth/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -64,6 +65,16 @@ const ListProduct = () => {
     e.preventDefault();
     if (photos.length < 5) { toast({ title: "Not enough photos", description: "Please upload at least 5 high-quality photos.", variant: "destructive" }); return; }
     if (pendingPhotos.length > 0) { toast({ title: "Photos still processing", variant: "destructive" }); return; }
+
+    // Validate category-specific required fields
+    if (formData.category) {
+      const metadataErrors = validateMetadata(formData.category, metadata);
+      if (metadataErrors.length > 0) {
+        toast({ title: "Missing required details", description: metadataErrors.join('. '), variant: "destructive" });
+        return;
+      }
+    }
+
     toast({ title: "Product listed successfully!", description: "Your product has been added to the marketplace." });
     navigate('/products');
   };
