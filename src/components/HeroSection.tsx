@@ -1,76 +1,76 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ArrowRight } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Truck, BadgeCheck } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { SearchWithSuggestions } from '@/components/search/SearchWithSuggestions';
 
-const trendingSearches = ['Toyota Corolla', 'iPhone', 'Sofa Set', 'Land Rover', 'Samsung TV'];
+const trendingSearches = ['Toyota Corolla', 'iPhone', 'Sofa Set', 'Land Rover', 'Samsung TV', '3 Bedroom House', 'Laptop'];
+
+const trustBadges = [
+  { icon: ShieldCheck, label: 'Verified Sellers' },
+  { icon: Truck, label: 'Delivery Available' },
+  { icon: BadgeCheck, label: 'Secure Payments' },
+];
 
 const HeroSection = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (query: string) => {
     navigate(`/products${query.trim() ? `?search=${encodeURIComponent(query)}` : ''}`);
   };
 
   return (
-    <section className="bg-primary text-primary-foreground py-10 sm:py-16">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center space-y-5 sm:space-y-7">
+    <section className="bg-primary text-primary-foreground">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid sm:grid-cols-2 gap-6 sm:gap-10 items-center">
+          {/* Left: Copy */}
+          <div className="space-y-4">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold leading-tight">
+              Buy &amp; Sell Anything<br />in Lesotho
+            </h1>
+            <p className="text-sm sm:text-base opacity-80 max-w-md">
+              The Kingdom's #1 marketplace — vehicles, electronics, property, jobs &amp; more across all 10 districts.
+            </p>
 
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold leading-tight">
-          Buy &amp; Sell Anything in Lesotho
-        </h1>
-        <p className="text-sm sm:text-lg opacity-80 max-w-xl mx-auto">
-          Lesotho's largest online marketplace — vehicles, electronics, furniture, fashion and more across all 10 districts.
-        </p>
-
-        {/* Big hero search */}
-        <div className="max-w-xl mx-auto">
-          <div className="flex gap-2 bg-background rounded-xl p-1.5 shadow-lg">
-            <div className="flex-1">
-              <SearchWithSuggestions
-                value={searchQuery}
-                onChange={setSearchQuery}
-                onSearch={handleSearch}
-                placeholder="What are you looking for?"
-              />
+            {/* Trending tags */}
+            <div className="flex flex-wrap gap-1.5">
+              {trendingSearches.map((term) => (
+                <button
+                  key={term}
+                  onClick={() => handleSearch(term)}
+                  className="bg-primary-foreground/15 hover:bg-primary-foreground/25 px-3 py-1 rounded-full text-xs transition-colors"
+                >
+                  {term}
+                </button>
+              ))}
             </div>
+
             <Button
-              onClick={() => handleSearch(searchQuery)}
+              variant="secondary"
               size="default"
-              className="shrink-0 px-5 rounded-lg"
+              onClick={() => navigate('/products')}
+              className="font-semibold"
             >
-              <Search className="w-4 h-4 sm:mr-2" />
-              <span className="hidden sm:inline">Search</span>
+              Browse all listings
+              <ArrowRight className="w-4 h-4 ml-1.5" />
             </Button>
           </div>
-        </div>
 
-        {/* Trending */}
-        <div className="flex flex-wrap gap-2 justify-center text-sm opacity-90">
-          <span className="opacity-70 text-xs mt-0.5">Trending:</span>
-          {trendingSearches.map((term) => (
-            <button
-              key={term}
-              onClick={() => handleSearch(term)}
-              className="bg-primary-foreground/15 hover:bg-primary-foreground/25 px-3 py-0.5 rounded-full text-xs transition-colors"
-            >
-              {term}
-            </button>
-          ))}
+          {/* Right: Trust badges */}
+          <div className="hidden sm:flex flex-col gap-3">
+            {trustBadges.map(({ icon: Icon, label }) => (
+              <div
+                key={label}
+                className="flex items-center gap-3 bg-primary-foreground/10 rounded-xl px-5 py-4"
+              >
+                <div className="bg-primary-foreground/20 rounded-full p-2.5">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <span className="font-medium text-sm">{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
-
-        <Button
-          variant="secondary"
-          size="sm"
-          className="mx-auto"
-          onClick={() => navigate('/products')}
-        >
-          Browse all listings
-          <ArrowRight className="w-4 h-4 ml-1.5" />
-        </Button>
       </div>
     </section>
   );
