@@ -2,7 +2,9 @@
 import React from 'react';
 import HeroSection from '@/components/HeroSection';
 import CategoryGrid from '@/components/CategoryGrid';
-import FeaturedListings from '@/components/FeaturedListings';
+import NewListings from '@/components/homepage/NewListings';
+import TrendingByDistrict from '@/components/homepage/TrendingByDistrict';
+import RecentlyViewed from '@/components/homepage/RecentlyViewed';
 import StatsSection from '@/components/StatsSection';
 import DealsBanner from '@/components/DealsBanner';
 
@@ -11,7 +13,9 @@ const Index = () => {
     <>
       <HeroSection />
       <DealsBanner />
-      <FeaturedListings />
+      <NewListings />
+      <RecentlyViewed />
+      <TrendingByDistrict district="Maseru" />
       <CategoryGrid />
       <StatsSection />
     </>
