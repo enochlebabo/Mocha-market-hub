@@ -23,6 +23,7 @@ import SellerDashboard from "./pages/SellerDashboard";
 import AdminPanel from "./pages/AdminPanel";
 import Wishlist from "./pages/Wishlist";
 import CompleteProfile from "./pages/CompleteProfile";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
                 <Route path="/admin" element={<AdminPanel />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/complete-profile" element={<CompleteProfile />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
