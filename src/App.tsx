@@ -52,6 +52,7 @@ const App = () => (
                 <Route path="/admin" element={<AdminPanel />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/complete-profile" element={<CompleteProfile />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
