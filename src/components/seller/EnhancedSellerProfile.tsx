@@ -334,11 +334,11 @@ const EnhancedSellerProfile = () => {
 
                 <Button 
                   onClick={handleSubmitVerification}
-                  disabled={(documents.length === 0 && !governmentId && !socialMediaLink) || submitVerificationMutation.isPending}
+                  disabled={(documents.length === 0 && !governmentId && !socialMediaLink) || uploading || submitVerificationMutation.isPending}
                   className="w-full"
                 >
                   <Upload className="w-4 h-4 mr-2" />
-                  Submit Enhanced Verification
+                  {uploading ? 'Uploading securely…' : 'Submit Enhanced Verification'}
                 </Button>
               </div>
             </div>
