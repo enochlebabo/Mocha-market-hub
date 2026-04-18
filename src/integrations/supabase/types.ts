@@ -521,6 +521,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_public_profile: {
+        Args: { _user_id: string }
+        Returns: {
+          avatar_url: string
+          bio: string
+          created_at: string
+          display_name: string
+          district: string
+          user_id: string
+        }[]
+      }
       get_seller_rating: {
         Args: { seller_user_id: string }
         Returns: {
