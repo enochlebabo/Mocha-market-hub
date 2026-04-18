@@ -19,7 +19,16 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  const { signIn, signUp, resetPassword, user } = useAuth();
+  const { signIn, signUp, resetPassword, signInWithGoogle, user } = useAuth();
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    const { error } = await signInWithGoogle();
+    if (error) {
+      setLoading(false);
+      toast.error(error.message);
+    }
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
