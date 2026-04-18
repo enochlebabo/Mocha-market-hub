@@ -33,23 +33,44 @@ const EnhancedSellerProfile = () => {
     },
   });
 
+  const [uploading, setUploading] = useState(false);
+
+  const uploadToVerificationBucket = async (file: File, userId: string, prefix: string) => {
+    const ext = file.name.split('.').pop() || 'bin';
+    const path = `${userId}/${prefix}-${Date.now()}.${ext}`;
+    const { error } = await supabase.storage
+      .from('verification-docs')
+      .upload(path, file, { upsert: false, contentType: file.type });
+    if (error) throw error;
+    return path; // store the path, not a public URL — files are private
+  };
+
   const submitVerificationMutation = useMutation({
-    mutationFn: async (formData: { 
-      documents: string[];
-      governmentIdUrl?: string;
-      socialMediaLink?: string;
-    }) => {
+    mutationFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
+
+      // Upload government ID to private bucket
+      let governmentIdPath: string | undefined;
+      if (governmentId) {
+        governmentIdPath = await uploadToVerificationBucket(governmentId, user.id, 'gov-id');
+      }
+
+      // Upload supporting documents to private bucket
+      const documentPaths: string[] = [];
+      for (const doc of documents) {
+        const path = await uploadToVerificationBucket(doc, user.id, 'doc');
+        documentPaths.push(path);
+      }
 
       const { data, error } = await supabase
         .from('seller_verification')
         .upsert({
           user_id: user.id,
-          verification_documents: formData.documents,
-          government_id_url: formData.governmentIdUrl,
-          social_media_link: formData.socialMediaLink,
-          verification_status: 'pending'
+          verification_documents: documentPaths,
+          government_id_url: governmentIdPath,
+          social_media_link: socialMediaLink || null,
+          verification_status: 'pending',
         })
         .select()
         .single();
@@ -59,10 +80,13 @@ const EnhancedSellerProfile = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['enhanced-seller-profile'] });
-      toast.success('Enhanced verification request submitted successfully!');
+      toast.success('Verification request submitted securely!');
+      setDocuments([]);
+      setGovernmentId(null);
+      setSocialMediaLink('');
     },
-    onError: (error) => {
-      toast.error('Failed to submit verification request');
+    onError: (error: any) => {
+      toast.error(error.message || 'Failed to submit verification request');
       console.error(error);
     },
   });
@@ -72,8 +96,6 @@ const EnhancedSellerProfile = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      // In a real app, you'd verify the OTP with your SMS provider
-      // For now, we'll just mark as verified if OTP is "123456"
       if (otpCode === '123456') {
         const { error } = await supabase
           .from('seller_verification')
@@ -91,31 +113,23 @@ const EnhancedSellerProfile = () => {
       toast.success('Mobile number verified successfully!');
       setOtpCode('');
     },
-    onError: (error) => {
+    onError: () => {
       toast.error('Invalid OTP code. Use 123456 for demo.');
     },
   });
 
   const handleDocumentUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setDocuments(Array.from(e.target.files));
-    }
+    if (e.target.files) setDocuments(Array.from(e.target.files));
   };
 
   const handleGovernmentIdUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setGovernmentId(e.target.files[0]);
-    }
+    if (e.target.files && e.target.files[0]) setGovernmentId(e.target.files[0]);
   };
 
   const handleSubmitVerification = () => {
-    const documentNames = documents.map(doc => doc.name);
-    const governmentIdUrl = governmentId ? governmentId.name : undefined;
-    
-    submitVerificationMutation.mutate({ 
-      documents: documentNames,
-      governmentIdUrl,
-      socialMediaLink: socialMediaLink || undefined
+    setUploading(true);
+    submitVerificationMutation.mutate(undefined, {
+      onSettled: () => setUploading(false),
     });
   };
 
