@@ -19,11 +19,13 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  const { signIn, signUp, resetPassword, signInWithGoogle, user } = useAuth();
+  const { signIn, signUp, resetPassword, signInWithGoogle, signInWithApple, user } = useAuth();
 
-  const handleGoogleSignIn = async () => {
+  const handleOAuthSignIn = async (provider: 'google' | 'apple') => {
     setLoading(true);
-    const { error } = await signInWithGoogle();
+    const { error } = provider === 'google'
+      ? await signInWithGoogle()
+      : await signInWithApple();
     if (error) {
       setLoading(false);
       toast.error(error.message);
