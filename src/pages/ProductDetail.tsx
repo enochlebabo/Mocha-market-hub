@@ -44,12 +44,9 @@ const ProductDetail = () => {
     queryKey: ['seller-profile', product?.user_id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', product!.user_id)
-        .maybeSingle();
+        .rpc('get_public_profile', { _user_id: product!.user_id });
       if (error) throw error;
-      return data;
+      return data?.[0] ?? null;
     },
     enabled: !!product?.user_id,
   });
